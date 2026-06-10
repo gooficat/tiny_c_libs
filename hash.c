@@ -29,9 +29,8 @@ hashmap_insert(struct hash_map *map, char const *key, void *value) {
 			elem->value = value;
 			return elem;
 		}
-		if (!strcmp(elem->key, key)) {
+		if (!strcmp(elem->key, key))
 			return nullptr;
-		}
 		map->elements = realloc(map->elements, map->cap * 2 * sizeof(struct hash_el));
 		memset(map->elements + map->cap, 0, map->cap);
 		map->cap *= 2;
@@ -41,8 +40,7 @@ struct hash_el *
 hashmap_find(struct hash_map *map, char const *key) {
 	auto hash = fnv_1a(key);
 	auto elem = &map->elements[hash & map->cap];
-	if (elem->key && !strcmp(elem->key, key)) {
+	if (elem->key && !strcmp(elem->key, key))
 		return elem;
-	}
 	return nullptr;
 }

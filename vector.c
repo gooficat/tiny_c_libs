@@ -28,3 +28,11 @@ void *ivec_shrink(size_t *v, size_t w, size_t n) {
 	vec_cap(v) = new_cap;
 	return vec_update(v, w);
 }
+
+void *ivec_resize(size_t *v, size_t w, size_t n) {
+	if (n == vec_len(v))
+		return v;
+	if (n > vec_len(v))
+		return ivec_grow(v, w, n - vec_len(v));
+	return ivec_shrink(v, w, n - vec_len(v));
+}

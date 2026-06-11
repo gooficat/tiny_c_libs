@@ -2,7 +2,7 @@
 #define __ARENA__H__
 
 struct arena {
-  char *data, *ptr, *end;
+	char *data, *ptr, *end;
 };
 
 void arena_init(struct arena *arena, size_t size);

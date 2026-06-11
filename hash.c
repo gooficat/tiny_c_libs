@@ -18,8 +18,7 @@ void hashmap_init(struct hash_map *map) {
 	map->elements = calloc(16, sizeof(struct hash_el));
 }
 
-struct hash_el *
-hashmap_insert(struct hash_map *map, char const *key, void *value) {
+struct hash_el *hashmap_insert(struct hash_map *map, char const *key, void *value) {
 	auto hash = fnv_1a(key);
 	struct hash_el *elem;
 	for (;;) {
@@ -36,11 +35,17 @@ hashmap_insert(struct hash_map *map, char const *key, void *value) {
 		map->cap *= 2;
 	}
 }
-struct hash_el *
-hashmap_find(struct hash_map *map, char const *key) {
+struct hash_el *hashmap_find(const struct hash_map *map, char const *key) {
 	auto hash = fnv_1a(key);
 	auto elem = &map->elements[hash & map->cap];
 	if (elem->key && !strcmp(elem->key, key))
 		return elem;
 	return nullptr;
+}
+
+void hashmap_from_list(char const *const *const list, struct hash_map *map) {
+	size_t i = 0;
+	hashmap_init(map);
+	while (list[i])
+		hashmap_insert(map, list[i], (void *)i);
 }

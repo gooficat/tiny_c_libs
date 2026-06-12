@@ -9,6 +9,6 @@ struct pstr {
 };
 
 void pstr_sub(struct pstr *dst, struct pstr const *src, size_t idx, size_t len);
-void pstr_cpy(struct pstr *dst, struct pstr const *src, size_t idx, size_t len);
+void pstr_dup(struct pstr *dst, char const *src, size_t idx, size_t len);
 
 #endif //!__PSTR__H__

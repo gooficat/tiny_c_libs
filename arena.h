@@ -1,6 +1,8 @@
 #ifndef __ARENA__H__
 #define __ARENA__H__
 
+#define ARENA_ALIGNMENT 16
+
 struct arena {
 	char *data, *ptr, *end;
 };

@@ -10,8 +10,13 @@ void arena_init(struct arena *arena, size_t size) {
 
 void *arena_alloc(struct arena *arena, size_t size) {
 	void *ptr = arena->ptr;
-	size_t misalign = size % 8;
-	arena->ptr += misalign ? size + 8 - misalign : size;
+	size_t misalign = size % ARENA_ALIGNMENT;
+	size = misalign ? size + ARENA_ALIGNMENT - misalign : size;
+	arena->ptr += size;
+	if (arena->ptr > arena->end) {
+		arena->ptr -= size;
+		return NULL;
+	}
 	return ptr;
 }
 

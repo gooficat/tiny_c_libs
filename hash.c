@@ -19,7 +19,7 @@ void hashmap_init(struct hash_map *map) {
 }
 
 struct hash_el *hashmap_insert(struct hash_map *map, char const *key, void *value) {
-	auto hash = fnv_1a(key);
+	uint64_t hash = fnv_1a(key);
 	struct hash_el *elem;
 	for (;;) {
 		elem = &map->elements[hash & map->cap];
@@ -29,18 +29,18 @@ struct hash_el *hashmap_insert(struct hash_map *map, char const *key, void *valu
 			return elem;
 		}
 		if (!strcmp(elem->key, key))
-			return nullptr;
+			return NULL;
 		map->elements = realloc(map->elements, map->cap * 2 * sizeof(struct hash_el));
 		memset(map->elements + map->cap, 0, map->cap);
 		map->cap *= 2;
 	}
 }
 struct hash_el *hashmap_find(const struct hash_map *map, char const *key) {
-	auto hash = fnv_1a(key);
-	auto elem = &map->elements[hash & map->cap];
+	uint64_t hash = fnv_1a(key);
+	struct hash_el *elem = &map->elements[hash & map->cap];
 	if (elem->key && !strcmp(elem->key, key))
 		return elem;
-	return nullptr;
+	return NULL;
 }
 
 void hashmap_from_list(char const *const *const list, struct hash_map *map) {

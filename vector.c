@@ -1,6 +1,7 @@
 #include "vector.h"
 #include <stddef.h>
 #include <stdlib.h>
+#include <string.h>
 
 void *ivec_init(size_t w) {
 	size_t *v = malloc(sizeof(size_t[2]) + w);
@@ -35,4 +36,11 @@ void *ivec_resize(size_t *v, size_t w, size_t n) {
 	if (n > vec_len(v))
 		return ivec_grow(v, w, n - vec_len(v));
 	return ivec_shrink(v, w, n - vec_len(v));
+}
+
+void *ivec_dup(size_t *v, size_t w) {
+	size_t sz = vec_len(v) * w + sizeof(size_t[2]);
+	size_t *new = malloc(sz);
+	memcpy(new, v - 2, sz);
+	return new + 2;
 }

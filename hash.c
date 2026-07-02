@@ -22,7 +22,7 @@ struct hash_el *hashmap_insert(struct hash_map *map, char const *key, void *valu
 	uint64_t hash = fnv_1a(key);
 	struct hash_el *elem;
 	for (;;) {
-		elem = &map->elements[hash & map->cap];
+		elem = map->elements + (hash & map->cap);
 		if (!elem->key) {
 			elem->key = key;
 			elem->value = value;
@@ -37,7 +37,7 @@ struct hash_el *hashmap_insert(struct hash_map *map, char const *key, void *valu
 }
 struct hash_el *hashmap_find(const struct hash_map *map, char const *key) {
 	uint64_t hash = fnv_1a(key);
-	struct hash_el *elem = &map->elements[hash & map->cap];
+	struct hash_el *elem = map->elements + (hash & map->cap);
 	if (elem->key && !strcmp(elem->key, key))
 		return elem;
 	return NULL;
